@@ -1,0 +1,24 @@
+{% extends "base.html" %}
+{% block title %}
+    {{post.title}}
+{% endblock %}
+{% block content %}
+
+<br />
+<div class="container">
+      <nav aria-label="breadcrumb">
+          <ol class="breadcrumb">
+          <li class="breadcrumb-item"><a href="/">Главная</a></li>
+          <li class="breadcrumb-item"><a href="#">{{post.categories}}</a></li>
+          <li class="breadcrumb-item active" aria-current="page">{{post.title}}</li>
+          </ol>
+      </nav>
+  </div> 
+
+  <h1>{{post.title}}</h1>
+  <div class="mb-1 text-body-secondary"><font style="vertical-align: inherit;">Опубликовано: <font style="vertical-align: inherit;">{{post.published}}</font></font></div>
+  <img width="800px" src="https://cdn.tripster.ru/thumbs2/b964fe2e-ced7-11ee-8376-7ad2c635a10f.1220x600.jpeg" alt="Гора Эверест" class="postcover">
+  <p>{{post.content}}</p>
+          
+{% endblock %}
+   
