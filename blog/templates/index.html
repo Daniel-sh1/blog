@@ -3,40 +3,54 @@
     Главная страница
 {% endblock %}
 {% block content %}
-{% for post in posts %}
-<div class="row g-0 border rounded overflow-hidden flex-md-row mb-4 shadow-sm h-md-250 position-relative">
-    <div class="col-auto d-none d-lg-block">
-      <img src="https://moya-planeta.ru/upload/images/xl/85/ec/85ec639804ea05eb0d5bf4e6793c540e5951d508.jpg" alt="Гора Эверест" width="200" height="250" class="bd-placeholder-img" style="object-fit: cover;">
-    </div>
-    <div class="col p-4 d-flex flex-column position-static">
-      <strong class="d-inline-block mb-2 text-primary-emphasis"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">{{post.categories}}</font></font></strong>
-      <h3 class="mb-0"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">{{post.title}}</font></font></h3>
-      <div class="mb-1 text-body-secondary"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">{{post.published}}</font></font></div>
-      <p class="card-text mb-auto"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">{{post.content|truncatechars:150}}</font></font></p>
-      <a href="{% url 'singlepost' post.id %}" class="icon-link gap-1 icon-link-hover stretched-link"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">
-        Продолжить чтение
-        </font></font><svg class="bi"><use xlink:href="#chevron-right"></use></svg>
-      </a>            
-    </div>
-</div>
-{% endfor %}
-<nav aria-label="Page navigation example">
-    <ul class="pagination">
-      <li class="page-item">
-        <a class="page-link" href="#" aria-label="Previous">
-          <span aria-hidden="true">&laquo;</span>
-        </a>
-      </li>
-      <li class="page-item"><a class="page-link" href="#">1</a></li>
-      <li class="page-item"><a class="page-link" href="#">2</a></li>
-      <li class="page-item"><a class="page-link" href="#">3</a></li>
-      <li class="page-item">
-        <a class="page-link" href="#" aria-label="Next">
-          <span aria-hidden="true">&raquo;</span>
-        </a>
-      </li>
-    </ul>
-</nav>
+{% if posts %}
+  {% for post in posts %}
+  <div class="row g-0 border rounded overflow-hidden flex-md-row mb-4 shadow-sm h-md-250 position-relative">
+      <div class="col-auto d-none d-lg-block">
+        <img src="https://moya-planeta.ru/upload/images/xl/85/ec/85ec639804ea05eb0d5bf4e6793c540e5951d508.jpg" alt="Гора Эверест" width="200" height="250" class="bd-placeholder-img" style="object-fit: cover;">
+      </div>
+      <div class="col p-4 d-flex flex-column position-static">
+        <strong class="d-inline-block mb-2 text-primary-emphasis"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">{{post.categories}}</font></font></strong>
+        <h3 class="mb-0"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">{{post.title}}</font></font></h3>
+        <div class="mb-1 text-body-secondary"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">{{post.published}}</font></font></div>
+        <p class="card-text mb-auto"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">{{post.content|truncatechars:150}}</font></font></p>
+        <a href="{% url 'singlepost' post.id %}" class="icon-link gap-1 icon-link-hover stretched-link"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">
+          Продолжить чтение
+          </font></font><svg class="bi"><use xlink:href="#chevron-right"></use></svg>
+        </a>            
+      </div>
+  </div>
+  {% endfor %}
+{% else %}
+  <p>Здесь еще нет постов...</p>
+{% endif %}
+
+{% if page_obj.has_other_pages %}
+    <nav>
+        <ul class="pagination justify-content-center">
+
+            {% for page_number in page_obj.paginator.page_range %}
+              
+                {% if page_number <= page_obj.number|add:3 and page_number >= page_obj.number|add:-3 %}
+                    {% if page_obj.number == page_number %}
+                        <li class="page-item active">
+                            <a class="page-link" href="?page={{ page_number }}">
+                                {{ page_number }}
+                            </a>
+                        </li>
+                    {% else %}
+                        <li class="page-item">
+                            <a class="page-link" href="?page={{ page_number }}">
+                                {{ page_number }}
+                            </a>
+                        </li>
+                    {% endif %}
+                {% endif %}
+            {% endfor %}
+
+        </ul>
+    </nav>
+{% endif %}
 
 {% endblock %}
    

@@ -13,20 +13,22 @@ from .models import Categories, Post
 #         template_name="index.html"
 #         )
 
-class PostsListView(ListView):
+class PostsByCategoryListView(ListView):
     model = Post
     context_object_name = "posts"
     template_name = "index.html"
-
-    def get_context_data(self, **kwargs):
-        context = super().get_context_data(**kwargs)
-        return context
+    paginate_by = 3
+    
+    def get_queryset(self):
+        queryset = Post.objects.filter(categories__slug=self.kwargs['slug'])
+        return queryset
     
 
 class PostsListView(ListView):
     model = Post
     context_object_name = "posts"
     template_name = "index.html"
+    paginate_by = 3
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
