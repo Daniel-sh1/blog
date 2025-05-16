@@ -1,4 +1,4 @@
-<h1 align="center">Всем привет👋>
+<h1 align="center">Всем привет👋
 
 
 <h3 align="left">Тема блога 📚 </h3>
