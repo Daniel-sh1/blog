@@ -1,5 +1,5 @@
 from django.shortcuts import render
-from django.views.generic import ListView, DetailView
+from django.views.generic import ListView, DetailView, UpdateView
 from .models import Categories, Post
 
 # def index(request):
@@ -39,4 +39,11 @@ class PostDetailView(DetailView):
     model = Post
     template_name = "singlepost.html"
     context_object_name = "post"
+
+
+class PostUpdateView(UpdateView):
+    model = Post
+    template_name = "index.html"
+    success_url = "/"
+#    form = 
 
