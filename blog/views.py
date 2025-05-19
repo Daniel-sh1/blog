@@ -1,6 +1,7 @@
 from django.shortcuts import render
 from django.views.generic import ListView, DetailView, UpdateView
 from .models import Categories, Post
+from .forms import PostForm
 
 # def index(request):
 #     posts = Post.objects.all()
@@ -43,7 +44,9 @@ class PostDetailView(DetailView):
 
 class PostUpdateView(UpdateView):
     model = Post
-    template_name = "index.html"
+    form_class = PostForm
+    template_name = "editpost.html"
     success_url = "/"
-#    form = 
+    
+    
 
