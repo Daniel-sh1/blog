@@ -1,0 +1,16 @@
+{% extends "base.html" %}
+
+{% load crispy_forms_tags %}
+
+{% block title %}
+    Создание поста
+{% endblock %}
+{% block content %}
+<h1>Создание нвого поста</h1>
+<form method="post">
+    {% csrf_token %}
+    {{ form|crispy }} 
+    <input class="btn btn-primary" type="submit" value="Создать пост">
+</form>
+<a href="#">Назад к списку постов</a>
+{% endblock %}

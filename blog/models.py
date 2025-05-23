@@ -47,3 +47,4 @@ class Post(models.Model):
         verbose_name = "Пост"
         verbose_name_plural = "Посты"
 
+
