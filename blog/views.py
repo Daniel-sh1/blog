@@ -1,8 +1,8 @@
 from django.shortcuts import render
-from django.views.generic import ListView, DetailView, UpdateView, CreateView
+from django.views.generic import ListView, DetailView, UpdateView, CreateView, DeleteView
 from .models import Categories, Post
 from .forms import PostForm
-from django.urls import reverse_lazy
+#from django.urls import reverse_lazy
 
 # def index(request):
 #     posts = Post.objects.all()
@@ -68,7 +68,11 @@ class AdminPostCreateView(CreateView):
     success_url = "/"
 
 # For super User
-# class AdminPostDeleteView()
+class AdminPostDeleteView(DeleteView):
+    model = Post
+    template_name = "deletepost.html"
+    context_object_name = "post"
+    success_url = "/"
     
     
 

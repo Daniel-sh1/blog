@@ -5,7 +5,8 @@ from .views import (
     PostsByCategoryListView, 
     AdminPostUpdateView, 
     AdminPostCreateView,
-    AdminPostsListView
+    AdminPostsListView,
+    AdminPostDeleteView
     )
 
 urlpatterns = [
@@ -17,6 +18,7 @@ urlpatterns = [
     path('manager/post', AdminPostsListView.as_view(), name="adminpost"),
     path('manager/post/update/<int:pk>', AdminPostUpdateView.as_view(), name="admineditpost"),
     path('manager/post/create', AdminPostCreateView.as_view(), name="admincreatepost"),
+    path('manager/post/delete/<int:pk>/', AdminPostDeleteView.as_view(), name="admindeletepost"),
 ]
 
 
