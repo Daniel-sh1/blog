@@ -23,7 +23,7 @@ class PostsByCategoryListView(ListView):
     paginate_by = 3
     
     def get_queryset(self):
-        queryset = Post.objects.filter(categories__slug=self.kwargs['slug'])
+        queryset = Post.objects.filter(categories__slug=self.kwargs['slug'], publish=True)
         return queryset
     
 # For anonym User
@@ -33,6 +33,10 @@ class PostsListView(ListView):
     template_name = "index.html"
     ordering = ["-id"]
     paginate_by = 3
+
+    def get_queryset(self):
+        queryset = Post.objects.filter(publish=True)
+        return queryset
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)

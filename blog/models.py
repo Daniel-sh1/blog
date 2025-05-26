@@ -39,6 +39,10 @@ class Post(models.Model):
         verbose_name="Категория поста", 
         on_delete=models.CASCADE
         )
+    publish = models.BooleanField(
+        verbose_name="Опубликовано",
+        default=False
+        )
 
     def __str__(self):
         return self.title
