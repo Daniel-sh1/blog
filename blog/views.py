@@ -2,18 +2,7 @@ from django.shortcuts import render
 from django.views.generic import ListView, DetailView, UpdateView, CreateView, DeleteView
 from .models import Categories, Post
 from .forms import PostForm
-#from django.urls import reverse_lazy
-
-# def index(request):
-#     posts = Post.objects.all()
-
-#     return render(
-#         request=request, 
-#         context={
-#             "posts":posts,
-#             }, 
-#         template_name="index.html"
-#         )
+from django.contrib.auth.mixins import LoginRequiredMixin, UserPassesTestMixin
 
 # For anonym User
 class PostsByCategoryListView(ListView):
@@ -48,35 +37,48 @@ class PostDetailView(DetailView):
     template_name = "singlepost.html"
     context_object_name = "post"
 
-# For super User
-class AdminPostsListView(ListView):
+# For staff User (изменено с superuser на staff)
+class AdminPostsListView(LoginRequiredMixin, UserPassesTestMixin, ListView):
     model = Post
     context_object_name = "posts"
     template_name = "manager.html"
     ordering = ["-id"]
+    login_url = '/login/'
+    raise_exception = True
 
+    def test_func(self):
+        return self.request.user.is_staff
 
-# For super User
-class AdminPostUpdateView(UpdateView):
+class AdminPostUpdateView(LoginRequiredMixin, UserPassesTestMixin, UpdateView):
     model = Post
     form_class = PostForm
     template_name = "editpost.html"
     success_url = "/"
+    login_url = '/login/'
+    raise_exception = True
 
+    def test_func(self):
+        return self.request.user.is_staff
 
-# For super User
-class AdminPostCreateView(CreateView):
+class AdminPostCreateView(LoginRequiredMixin, UserPassesTestMixin, CreateView):
     model = Post
     form_class = PostForm
     template_name = "createpost.html"
     success_url = "/"
+    login_url = '/login/'
+    raise_exception = True
 
-# For super User
-class AdminPostDeleteView(DeleteView):
+    def test_func(self):
+        return self.request.user.is_staff
+
+class AdminPostDeleteView(LoginRequiredMixin, UserPassesTestMixin, DeleteView):
     model = Post
     template_name = "deletepost.html"
     context_object_name = "post"
     success_url = "/"
-    
-    
+    login_url = '/login/'
+    raise_exception = True
+
+    def test_func(self):
+        return self.request.user.is_staff
 
