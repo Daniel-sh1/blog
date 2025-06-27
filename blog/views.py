@@ -2,7 +2,7 @@ from django.shortcuts import render
 from django.views.generic import ListView, DetailView, UpdateView, CreateView, DeleteView
 from .models import Categories, Post
 from .forms import PostForm
-from django.contrib.auth.mixins import LoginRequiredMixin, UserPassesTestMixin
+from .mixins import AccessMixin
 
 # For anonym User
 class PostsByCategoryListView(ListView):
@@ -38,47 +38,41 @@ class PostDetailView(DetailView):
     context_object_name = "post"
 
 # For staff User (изменено с superuser на staff)
-class AdminPostsListView(LoginRequiredMixin, UserPassesTestMixin, ListView):
+class AdminPostsListView(AccessMixin, ListView):
     model = Post
     context_object_name = "posts"
     template_name = "manager.html"
     ordering = ["-id"]
-    login_url = '/login/'
-    raise_exception = True
 
-    def test_func(self):
-        return self.request.user.is_staff
+    # "admin", "manager", "user"
+    allowed_roles = ['admin',]
 
-class AdminPostUpdateView(LoginRequiredMixin, UserPassesTestMixin, UpdateView):
+
+
+class AdminPostUpdateView(AccessMixin, UpdateView):
     model = Post
     form_class = PostForm
     template_name = "editpost.html"
     success_url = "/"
-    login_url = '/login/'
-    raise_exception = True
 
-    def test_func(self):
-        return self.request.user.is_staff
+    allowed_roles = ['admin',]
 
-class AdminPostCreateView(LoginRequiredMixin, UserPassesTestMixin, CreateView):
+
+class AdminPostCreateView(AccessMixin, CreateView):
     model = Post
     form_class = PostForm
     template_name = "createpost.html"
     success_url = "/"
-    login_url = '/login/'
-    raise_exception = True
+    
+    allowed_roles = ['admin',]
 
-    def test_func(self):
-        return self.request.user.is_staff
 
-class AdminPostDeleteView(LoginRequiredMixin, UserPassesTestMixin, DeleteView):
+
+class AdminPostDeleteView(AccessMixin, DeleteView):
     model = Post
     template_name = "deletepost.html"
     context_object_name = "post"
     success_url = "/"
-    login_url = '/login/'
-    raise_exception = True
+    allowed_roles = ['admin',]
 
-    def test_func(self):
-        return self.request.user.is_staff
 
